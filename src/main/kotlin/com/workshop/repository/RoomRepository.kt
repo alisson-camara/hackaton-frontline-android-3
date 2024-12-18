@@ -38,7 +38,20 @@ class RoomRepository : IRoomRepository {
     }
 
     override suspend fun resetVotes(room: String, player: String): RoomDTO? {
-        TODO("Not yet implemented")
+        val roomDao = RoomDAO
+            .find { (RoomTable.name eq room) }
+            .limit(1)
+            .firstOrNull() ?: return null
+
+        if (roomDao.moderator != player) {
+            return null
+        }
+
+        val players = roomDao.players.toList()
+
+        players.forEach { it.point = "?" }
+
+        return RoomMapper.mapDaoToDto(roomDao,players)
     }
 
     override suspend fun sendVote(room: String, player: String): RoomDTO? {
