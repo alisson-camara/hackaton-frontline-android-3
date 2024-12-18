@@ -56,21 +56,21 @@ class RoomRepository : IRoomRepository {
         }
     }
 
-    override suspend fun resetVotes(room: String, player: String): RoomDTO? {
+    override suspend fun resetVotes(room: String, player: String): RoomDTO? = suspendTransaction{
         val roomDao = RoomDAO
             .find { (RoomTable.name eq room) }
             .limit(1)
-            .firstOrNull() ?: return null
+            .firstOrNull() ?: return@suspendTransaction null
 
         if (roomDao.moderator != player) {
-            return null
+            return@suspendTransaction null
         }
 
         val players = roomDao.players.toList()
 
         players.forEach { it.point = "?" }
 
-        return RoomMapper.mapDaoToDto(roomDao, players)
+        return@suspendTransaction RoomMapper.mapDaoToDto(roomDao, players)
     }
 
     override suspend fun sendVote(room: String, player: String, point: String): RoomDTO? = suspendTransaction {
