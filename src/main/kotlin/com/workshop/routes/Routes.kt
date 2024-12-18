@@ -9,12 +9,12 @@ import io.ktor.server.routing.post
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class WorkshopRoutes(private val route: Route) : KoinComponent {
+object WorkshopRoutes : KoinComponent {
 
     private val repository by inject<IRoomRepository>()
 
-    fun getRoomByName() {
-        route.get("/room") {
+    fun Route.getRoomByName() {
+        get("/room") {
             val name = call.queryParameters["room"]
 
             if (name == null) {
@@ -31,8 +31,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
         }
     }
 
-    fun getCreateRoom() {
-        route.post("/create-room") {
+    fun Route.getCreateRoom() {
+        post("/create-room") {
             val roomName = call.queryParameters["room"]
             val moderator = call.queryParameters["moderator"]
 
@@ -50,8 +50,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
         }
     }
 
-    fun removePlayer() {
-        route.post("/remove-player") {
+    fun Route.removePlayer() {
+        post("/remove-player") {
             val room = call.queryParameters["room"]
             val player = call.queryParameters["player"]
 
@@ -69,8 +69,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
         }
     }
 
-    fun resetVotes() {
-        route.post("/reset-votes") {
+    fun Route.resetVotes() {
+        post("/reset-votes") {
             val room = call.queryParameters["room"]
             val player = call.queryParameters["player"]
 
@@ -88,8 +88,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
         }
     }
 
-    fun sendVote() {
-        route.post("/sendvote") {
+    fun Route.sendVote() {
+        post("/sendvote") {
             val room = call.queryParameters["room"]
             val player = call.queryParameters["player"]
 
@@ -107,8 +107,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
         }
     }
 
-    fun joinRoom() {
-        route.post("/join-room") {
+    fun Route.joinRoom() {
+        post("/join-room") {
             val room = call.queryParameters["room"]
             val player = call.queryParameters["player"]
 
