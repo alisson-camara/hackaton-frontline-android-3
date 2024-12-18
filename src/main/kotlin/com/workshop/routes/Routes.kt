@@ -2,6 +2,7 @@ package com.workshop.routes
 
 import com.workshop.repository.IRoomRepository
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -98,7 +99,9 @@ object WorkshopRoutes : KoinComponent {
                 return@post
             }
 
-            val roomName = repository.sendVote(room, player)
+            val point = call.receiveText()
+
+            val roomName = repository.sendVote(room, player, point)
             if (roomName == null) {
                 call.respond(HttpStatusCode.NotFound)
                 return@post

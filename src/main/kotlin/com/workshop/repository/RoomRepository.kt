@@ -10,6 +10,7 @@ import com.workshop.utils.suspendTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.update
 
 class RoomRepository : IRoomRepository {
 
@@ -72,8 +73,18 @@ class RoomRepository : IRoomRepository {
         return RoomMapper.mapDaoToDto(roomDao, players)
     }
 
-    override suspend fun sendVote(room: String, player: String): RoomDTO? {
-        TODO("Not yet implemented")
+    override suspend fun sendVote(room: String, player: String, point: String): RoomDTO? = suspendTransaction {
+
+        val roomDao = RoomDAO
+            .find { (RoomTable.name eq room) }
+            .limit(1)
+            .firstOrNull() ?: return@suspendTransaction null
+
+        val players = roomDao.players.toList()
+
+        players.first { it.name == player }.point = point
+
+        return@suspendTransaction RoomMapper.mapDaoToDto(roomDao, players)
     }
 
     override suspend fun joinRoom(room: String, player: String): RoomDTO? = suspendTransaction{
