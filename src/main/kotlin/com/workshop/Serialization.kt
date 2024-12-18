@@ -16,6 +16,7 @@ fun Application.configureSerialization(repository: TaskRepository) {
     install(ContentNegotiation) {
         json()
     }
+    // todo remover
     routing {
         route("/tasks") {
             get {

@@ -18,10 +18,12 @@ fun Application.configureRouting() {
 
         WorkshopRoutes(this).apply {
             getRooms()
-        }
+            getCreateRoom()
+            removePlayer()
+            joinRoom()
+            resetVotes()
+            sendVote()
 
-        get("/") {
-            call.respondText("Hello World!")
         }
 
         // Static plugin. Try to access `/static/index.html`

@@ -1,8 +1,7 @@
 package com.workshop.routes
 
 import io.ktor.server.response.respondText
-import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
+import io.ktor.server.routing.*
 
 class WorkshopRoutes(private val route: Route){
 
@@ -24,6 +23,29 @@ class WorkshopRoutes(private val route: Route){
         }
     }
 
+    fun removePlayer() {
+        route.post("/remove-player") {
+            // todo
+        }
+    }
+
+    fun resetVotes() {
+        route.post("/reset-votes") {
+
+        }
+    }
+
+    fun sendVote() {
+        route.post("/sendvote") {
+
+        }
+    }
+
+    fun joinRoom() {
+        route.post("/join-room") {
+
+        }
+    }
 }
 
 
