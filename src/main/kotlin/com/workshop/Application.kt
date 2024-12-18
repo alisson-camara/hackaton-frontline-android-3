@@ -1,6 +1,7 @@
 package com.workshop
 
 import com.workshop.repository.FakeTaskRepository
+import com.workshop.repository.PostgresTaskRepository
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -8,9 +9,9 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    //val repository = PostgresTaskRepository()
+    val repository = PostgresTaskRepository()
     val taskRepository = FakeTaskRepository()
     configureSerialization(taskRepository)
-    configureDatabases()
+    connectToPostgres(true)
     configureRouting()
 }
