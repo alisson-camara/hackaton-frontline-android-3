@@ -1,12 +1,17 @@
 package com.workshop.repository
 
+import com.workshop.db.RoomDAO
+import com.workshop.db.RoomTable
 import com.workshop.model.Room
+import com.workshop.model.mapper.RoomMapper
 
-class RoomRepository(
-    // TODO: private val service: RoomService
-) : IRoomRepository {
-    override suspend fun getRoomByName(name: String): Room {
-        TODO("Not yet implemented")
+class RoomRepository : IRoomRepository {
+
+    override suspend fun getRoomByName(name: String): Room? {
+        RoomDAO
+            .find { (RoomTable.name eq name) }
+            .limit(1)
+            .map(RoomMapper::map)
     }
 
     override suspend fun createRoom(name: String, moderator: String): Room {

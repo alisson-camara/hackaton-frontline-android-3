@@ -15,7 +15,7 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
 
     fun getRoomByName() {
         route.get("/room") {
-            val name = call.parameters["room"]
+            val name = call.queryParameters["room"]
 
             if (name == null) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -32,28 +32,28 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
     }
 
     fun getCreateRoom() {
-        route.get("/create-room") {
-            val room = call.parameters["room"]
-            val moderator = call.parameters["moderator"]
+        route.post("/create-room") {
+            val roomName = call.queryParameters["room"]
+            val moderator = call.queryParameters["moderator"]
 
-            if (room == null || moderator == null) {
+            if (roomName == null || moderator == null) {
                 call.respond(HttpStatusCode.BadRequest)
-                return@get
+                return@post
             }
 
-            val roomName = repository.createRoom(room, moderator)
-            if (roomName == null) {
+            val room = repository.createRoom(roomName, moderator)
+            if (room == null) {
                 call.respond(HttpStatusCode.NotFound)
-                return@get
+                return@post
             }
-            call.respond(roomName)
+            call.respond(room)
         }
     }
 
     fun removePlayer() {
         route.post("/remove-player") {
-            val room = call.parameters["room"]
-            val player = call.parameters["player"]
+            val room = call.queryParameters["room"]
+            val player = call.queryParameters["player"]
 
             if (room == null || player == null) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -71,8 +71,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
 
     fun resetVotes() {
         route.post("/reset-votes") {
-            val room = call.parameters["room"]
-            val player = call.parameters["player"]
+            val room = call.queryParameters["room"]
+            val player = call.queryParameters["player"]
 
             if (room == null || player == null) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -90,8 +90,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
 
     fun sendVote() {
         route.post("/sendvote") {
-            val room = call.parameters["room"]
-            val player = call.parameters["player"]
+            val room = call.queryParameters["room"]
+            val player = call.queryParameters["player"]
 
             if (room == null || player == null) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -109,8 +109,8 @@ class WorkshopRoutes(private val route: Route) : KoinComponent {
 
     fun joinRoom() {
         route.post("/join-room") {
-            val room = call.parameters["room"]
-            val player = call.parameters["player"]
+            val room = call.queryParameters["room"]
+            val player = call.queryParameters["player"]
 
             if (room == null || player == null) {
                 call.respond(HttpStatusCode.BadRequest)
