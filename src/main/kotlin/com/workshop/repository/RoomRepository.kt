@@ -2,14 +2,13 @@ package com.workshop.repository
 
 import com.workshop.db.RoomTable
 import com.workshop.db.dao.RoomDAO
-import com.workshop.model.Room
 import com.workshop.model.dto.RoomDTO
 import com.workshop.model.mapper.RoomMapper
 import com.workshop.utils.suspendTransaction
 
 class RoomRepository : IRoomRepository {
 
-    override suspend fun getRoomByName(name: String): Room? = suspendTransaction {
+    override suspend fun getRoomByName(name: String): RoomDTO? = suspendTransaction {
         val roomWIthPlayers = RoomDAO
             .find { (RoomTable.name eq name) }
             .limit(1)
@@ -19,8 +18,7 @@ class RoomRepository : IRoomRepository {
             }
 
         return@suspendTransaction roomWIthPlayers?.let { room ->
-            RoomMapper.map(room = room.first, players = room.second)
-
+            RoomMapper.mapDaoToDto(room = room.first, players = room.second)
         }
     }
 
@@ -30,22 +28,24 @@ class RoomRepository : IRoomRepository {
             this.moderator = moderator
             this.currentTask = ""
         }
-        return@suspendTransaction RoomMapper.mapDaoToDto(roomDao)
+
+        val playersDao = roomDao.players.toList()
+        return@suspendTransaction RoomMapper.mapDaoToDto(roomDao, playersDao)
     }
 
-    override suspend fun removePlayer(room: String, player: String): Room? {
+    override suspend fun removePlayer(room: String, player: String): RoomDTO? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun resetVotes(room: String, player: String): Room? {
+    override suspend fun resetVotes(room: String, player: String): RoomDTO? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun sendVote(room: String, player: String): Room? {
+    override suspend fun sendVote(room: String, player: String): RoomDTO? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun joinRoom(room: String, player: String): Room? {
+    override suspend fun joinRoom(room: String, player: String): RoomDTO? {
         TODO("Not yet implemented")
     }
 }

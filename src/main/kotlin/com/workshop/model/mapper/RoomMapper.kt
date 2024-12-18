@@ -2,26 +2,15 @@ package com.workshop.model.mapper
 
 import com.workshop.db.dao.PlayerDAO
 import com.workshop.db.dao.RoomDAO
-import com.workshop.model.Room
 import com.workshop.model.dto.RoomDTO
 
 object RoomMapper {
-    fun map(room: RoomDAO, players: List<PlayerDAO>): Room = Room(
+    fun mapDaoToDto(room: RoomDAO, players: List<PlayerDAO>) = RoomDTO(
         name = room.name,
         currentTask = room.currentTask,
         moderator = room.moderator,
         players = players.map { player ->
             PlayerMapper.map(player)
         }
-    )
-
-    fun mapDaoToDto(room: RoomDAO) = RoomDTO(
-        name = room.name,
-        currentTask = room.currentTask,
-        moderator = room.moderator,
-        // TODO: Refactor this
-//        players = room.players.map { player ->
-//            PlayerMapper.map(player)
-//        }
     )
 }
