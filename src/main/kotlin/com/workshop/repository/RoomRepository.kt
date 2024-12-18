@@ -48,11 +48,19 @@ class RoomRepository : IRoomRepository {
                 room to playersDao
             }
 
-        return@suspendTransaction roomWIthPlayers?.let { room ->
-            PlayerTable.deleteWhere {
-                (this.name eq player) and (RoomTable.id eq this.room)
+        PlayerTable.deleteWhere {
+            (this.name eq player) and (RoomTable.id eq this.room)
+        }
+
+        val roomUpdated = RoomDAO
+            .find { (RoomTable.name eq player) }
+            .limit(1)
+            .firstOrNull()?.let { room: RoomDAO ->
+                val playersDao = room.players.toList()
+                room to playersDao
             }
-            RoomMapper.mapDaoToDto(room = room.first, players = room.second)
+        return@suspendTransaction roomUpdated?.let {
+            RoomMapper.mapDaoToDto(room = roomUpdated.first, players = roomUpdated.second)
         }
     }
 
