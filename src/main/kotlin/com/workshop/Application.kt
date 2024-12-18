@@ -1,6 +1,5 @@
 package com.workshop
 
-import com.workshop.repository.PostgresTaskRepository
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -8,9 +7,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val repository = PostgresTaskRepository()
     configureSerialization()
+    configureDatabases(true)
     configureKoin()
-    connectToPostgres(true)
     configureRouting()
 }

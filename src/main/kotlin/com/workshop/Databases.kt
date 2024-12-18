@@ -1,6 +1,7 @@
 package com.workshop
 
-import com.workshop.db.TaskTable
+import com.workshop.db.PlayerTable
+import com.workshop.db.RoomTable
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -12,26 +13,24 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.net.URI
 import java.sql.Connection
-import java.sql.DriverManager
 
-fun Application.configureDatabases() {
-    /*val dbUri: URI = URI(System.getenv("DATABASE_URL"))
+fun Application.configureDatabases(embedded: Boolean) {
 
-    val username: String = dbUri.userInfo.split(":").get(0)
-    val password: String = dbUri.userInfo.split(":").get(1)
-    val dbUrl = "jdbc:postgresql://" + dbUri.host + ':' + dbUri.port + dbUri.path + "?sslmode=require"
+    val url = if(embedded) "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" else environment.config.property("postgres.url").getString()
+    log.info("Connecting to postgres database at $url")
+    val user = if(embedded) "root" else environment.config.property("postgres.user").getString()
+    val password = if(embedded) "" else environment.config.property("postgres.password").getString()
 
     Database.connect(
-        url = dbUrl,
-        user = username,
+        url = url,
+        user = user,
         password = password
     )
     transaction {
-        SchemaUtils.create(TaskTable)
-        SchemaUtils.create(TaskTable)
-    }*/
+        SchemaUtils.create(RoomTable)
+        SchemaUtils.create(PlayerTable)
+    }
 }
 /**
  * Makes a connection to a Postgres database.
@@ -54,17 +53,17 @@ fun Application.configureDatabases() {
  * @return [Connection] that represent connection to the database. Please, don't forget to close this connection when
  * your application shuts down by calling [Connection.close]
  * */
-fun Application.connectToPostgres(embedded: Boolean): Connection {
-    Class.forName("org.postgresql.Driver")
-    if (embedded) {
-        log.info("Using embedded H2 database for testing; replace this flag to use postgres")
-        return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "root", "")
-    } else {
-        val url = environment.config.property("postgres.url").getString()
-        log.info("Connecting to postgres database at $url")
-        val user = environment.config.property("postgres.user").getString()
-        val password = environment.config.property("postgres.password").getString()
-
-        return DriverManager.getConnection(url, user, password)
-    }
-}
+//fun Application.connectToPostgres(embedded: Boolean): Connection {
+//    Class.forName("org.postgresql.Driver")
+//    if (embedded) {
+//        log.info("Using embedded H2 database for testing; replace this flag to use postgres")
+//        return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "root", "")
+//    } else {
+//        val url = environment.config.property("postgres.url").getString()
+//        log.info("Connecting to postgres database at $url")
+//        val user = environment.config.property("postgres.user").getString()
+//        val password = environment.config.property("postgres.password").getString()
+//
+//        return DriverManager.getConnection(url, user, password)
+//    }
+//}

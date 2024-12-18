@@ -4,6 +4,7 @@ import com.workshop.db.RoomDAO
 import com.workshop.db.RoomTable
 import com.workshop.db.suspendTransaction
 import com.workshop.model.Room
+import com.workshop.model.dto.RoomDTO
 import com.workshop.model.mapper.RoomMapper
 
 class RoomRepository : IRoomRepository {
@@ -23,8 +24,13 @@ class RoomRepository : IRoomRepository {
         }
     }
 
-    override suspend fun createRoom(name: String, moderator: String): Room {
-        TODO("Not yet implemented")
+    override suspend fun createRoom(name: String, moderator: String): RoomDTO = suspendTransaction {
+        val roomDao = RoomDAO.new {
+            this.name = name
+            this.moderator = moderator
+            this.currentTask = ""
+        }
+        return@suspendTransaction RoomMapper.mapDaoToDto(roomDao)
     }
 
     override suspend fun removePlayer(room: String, player: String): Room? {

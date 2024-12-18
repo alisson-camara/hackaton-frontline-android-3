@@ -14,4 +14,14 @@ object RoomMapper {
             PlayerMapper.map(player)
         }
     )
+
+    fun mapDaoToDto(room: RoomDAO) = RoomDTO(
+        name = room.name,
+        currentTask = room.currentTask,
+        moderator = room.moderator,
+        // TODO: Refactor this
+//        players = room.players.map { player ->
+//            PlayerMapper.map(player)
+//        }
+    )
 }
