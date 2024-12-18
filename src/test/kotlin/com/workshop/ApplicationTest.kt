@@ -1,6 +1,6 @@
 package com.workshop
 
-import com.workshop.model.FakeTaskRepository
+import com.workshop.repository.FakeTaskRepository
 import com.workshop.model.Priority
 import com.workshop.model.Task
 import io.ktor.client.call.*

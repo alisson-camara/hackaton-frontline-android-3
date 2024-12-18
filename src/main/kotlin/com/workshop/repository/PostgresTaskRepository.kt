@@ -1,9 +1,11 @@
-package com.workshop.model
+package com.workshop.repository
 
 import com.workshop.db.TaskDAO
 import com.workshop.db.TaskTable
 import com.workshop.db.daoToModel
 import com.workshop.db.suspendTransaction
+import com.workshop.model.Priority
+import com.workshop.model.Task
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 

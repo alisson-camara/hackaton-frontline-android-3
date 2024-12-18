@@ -1,4 +1,7 @@
-package com.workshop.model
+package com.workshop.repository
+
+import com.workshop.model.Priority
+import com.workshop.model.Task
 
 interface TaskRepository {
     suspend fun allTasks(): List<Task>
