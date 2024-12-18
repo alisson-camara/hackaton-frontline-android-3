@@ -7,5 +7,5 @@ data class RoomDTO(
     val name: String? = "",
     val currentTask: String? = "",
     val moderator: String? = "",
-    val players: List<PlayerDTO> = listOf()
+    val players: List<PlayerDTO>? = null
 )

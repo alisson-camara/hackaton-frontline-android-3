@@ -10,6 +10,6 @@ object RoomTable : IntIdTable("room") {
 
 object PlayerTable : IntIdTable("player") {
     val name = varchar("name", 50)
-    val point = varchar("current_task", 50)
+    var point = varchar("point", 50)
     val room = reference("room_id", RoomTable)
 }

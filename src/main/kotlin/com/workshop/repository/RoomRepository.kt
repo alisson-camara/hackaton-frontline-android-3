@@ -2,6 +2,7 @@ package com.workshop.repository
 
 import com.workshop.db.PlayerTable
 import com.workshop.db.RoomTable
+import com.workshop.db.dao.PlayerDAO
 import com.workshop.db.dao.RoomDAO
 import com.workshop.model.dto.RoomDTO
 import com.workshop.model.mapper.RoomMapper
@@ -75,7 +76,27 @@ class RoomRepository : IRoomRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun joinRoom(room: String, player: String): RoomDTO? {
-        TODO("Not yet implemented")
+    override suspend fun joinRoom(room: String, player: String): RoomDTO? = suspendTransaction{
+
+        val currentRoom = RoomDAO
+            .find { (RoomTable.name eq room) }
+            .limit(1).firstOrNull()
+
+        if(currentRoom == null){
+            return@suspendTransaction null
+        }
+
+        PlayerDAO.new {
+            this.name = player
+            this.point = "?"
+            this.room = currentRoom
+        }
+
+        val currentRoomUpdated = RoomDAO
+            .find { (RoomTable.name eq room) }
+            .limit(1).firstOrNull()
+
+        val playersDao = currentRoomUpdated?.players?.toList()
+        return@suspendTransaction RoomMapper.mapDaoToDto(currentRoomUpdated!!, playersDao)
     }
 }
