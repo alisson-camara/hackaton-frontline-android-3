@@ -1,7 +1,6 @@
 package com.workshop.db
 
 import com.workshop.model.Priority
-import com.workshop.model.Room
 import com.workshop.model.Task
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.IntEntity
@@ -35,6 +34,7 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id) {
     var name by RoomTable.name
     var currentTask by RoomTable.currentTask
     var moderator by RoomTable.moderator
+    val players by PlayerDAO referrersOn PlayerTable.room
 }
 
 class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -42,7 +42,7 @@ class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var name by PlayerTable.name
     var point by PlayerTable.point
-    var room by PlayerTable.reference(RoomTable.)
+    var room by RoomDAO referencedOn PlayerTable.room
 }
 
 class TaskDAO(id: EntityID<Int>) : IntEntity(id) {

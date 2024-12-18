@@ -2,16 +2,25 @@ package com.workshop.repository
 
 import com.workshop.db.RoomDAO
 import com.workshop.db.RoomTable
+import com.workshop.db.suspendTransaction
 import com.workshop.model.Room
 import com.workshop.model.mapper.RoomMapper
 
 class RoomRepository : IRoomRepository {
 
-    override suspend fun getRoomByName(name: String): Room? {
-        RoomDAO
+    override suspend fun getRoomByName(name: String): Room? = suspendTransaction {
+        val roomWIthPlayers =  RoomDAO
             .find { (RoomTable.name eq name) }
             .limit(1)
-            .map(RoomMapper::map)
+            .firstOrNull()?.let { room: RoomDAO ->
+                val playersDao = room.players.toList()
+                room to playersDao
+            }
+
+        return@suspendTransaction roomWIthPlayers?.let { room ->
+             RoomMapper.map(room = room.first, players = room.second)
+
+        }
     }
 
     override suspend fun createRoom(name: String, moderator: String): Room {

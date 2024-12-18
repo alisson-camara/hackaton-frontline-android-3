@@ -1,10 +1,10 @@
 package com.workshop.model.mapper
 
+import com.workshop.db.PlayerDAO
 import com.workshop.model.Player
-import com.workshop.model.dto.PlayerDTO
 
 object PlayerMapper {
-    fun map(player: Player): PlayerDTO = PlayerDTO(
+    fun map(player: PlayerDAO): Player = Player(
         player.name,
         player.point
     )
