@@ -30,7 +30,7 @@ class RoomRepository : IRoomRepository {
         val roomDao = RoomDAO.new {
             this.name = name
             this.moderator = moderator
-            this.currentTask = ""
+            this.currentTask = "Task 1"
         }
 
         val playersDao = roomDao.players.toList()
