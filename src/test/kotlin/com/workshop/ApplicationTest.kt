@@ -1,8 +1,9 @@
 package com.workshop
 
-import com.workshop.repository.FakeTaskRepository
+import com.workshop.config.configureSerialization
 import com.workshop.model.Priority
 import com.workshop.model.Task
+import com.workshop.routes.configureRouting
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*

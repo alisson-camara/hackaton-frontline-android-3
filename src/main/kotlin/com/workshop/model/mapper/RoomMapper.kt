@@ -1,7 +1,7 @@
 package com.workshop.model.mapper
 
-import com.workshop.db.PlayerDAO
-import com.workshop.db.RoomDAO
+import com.workshop.db.dao.PlayerDAO
+import com.workshop.db.dao.RoomDAO
 import com.workshop.model.Room
 import com.workshop.model.dto.RoomDTO
 

@@ -1,16 +1,16 @@
 package com.workshop.repository
 
-import com.workshop.db.RoomDAO
 import com.workshop.db.RoomTable
-import com.workshop.db.suspendTransaction
+import com.workshop.db.dao.RoomDAO
 import com.workshop.model.Room
 import com.workshop.model.dto.RoomDTO
 import com.workshop.model.mapper.RoomMapper
+import com.workshop.utils.suspendTransaction
 
 class RoomRepository : IRoomRepository {
 
     override suspend fun getRoomByName(name: String): Room? = suspendTransaction {
-        val roomWIthPlayers =  RoomDAO
+        val roomWIthPlayers = RoomDAO
             .find { (RoomTable.name eq name) }
             .limit(1)
             .firstOrNull()?.let { room: RoomDAO ->
@@ -19,7 +19,7 @@ class RoomRepository : IRoomRepository {
             }
 
         return@suspendTransaction roomWIthPlayers?.let { room ->
-             RoomMapper.map(room = room.first, players = room.second)
+            RoomMapper.map(room = room.first, players = room.second)
 
         }
     }

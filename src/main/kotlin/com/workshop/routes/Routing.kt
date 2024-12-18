@@ -1,6 +1,5 @@
-package com.workshop
+package com.workshop.routes
 
-import com.workshop.routes.WorkshopRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*

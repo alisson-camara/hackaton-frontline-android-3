@@ -1,4 +1,4 @@
-package com.workshop
+package com.workshop.config
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
