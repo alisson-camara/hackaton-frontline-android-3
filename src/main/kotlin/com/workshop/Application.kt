@@ -1,6 +1,5 @@
 package com.workshop
 
-import com.workshop.repository.FakeTaskRepository
 import com.workshop.repository.PostgresTaskRepository
 import io.ktor.server.application.*
 
