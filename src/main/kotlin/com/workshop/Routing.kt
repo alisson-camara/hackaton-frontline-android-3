@@ -15,15 +15,13 @@ fun Application.configureRouting() {
         }
     }
     routing {
-
         WorkshopRoutes(this).apply {
-            getRooms()
+            getRoomByName()
             getCreateRoom()
             removePlayer()
             joinRoom()
             resetVotes()
             sendVote()
-
         }
 
         // Static plugin. Try to access `/static/index.html`
