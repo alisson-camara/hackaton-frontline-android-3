@@ -25,7 +25,7 @@ dependencies {
     implementation(libs.ktor.server.status.pages)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.server.content.negotiation)
-    implementation(libs.koin.core)
+    implementation(libs.koin.ktor)
     implementation(libs.postgresql)
     implementation(libs.h2)
     implementation(libs.exposed.core)

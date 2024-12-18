@@ -10,8 +10,8 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     val repository = PostgresTaskRepository()
-    val taskRepository = FakeTaskRepository()
-    configureSerialization(taskRepository)
+    configureSerialization()
+    configureKoin()
     connectToPostgres(true)
     configureRouting()
 }
